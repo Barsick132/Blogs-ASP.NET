@@ -1,0 +1,296 @@
+﻿@using Lab1.Models;
+@using System.Linq;
+@using System.Data.Entity;
+@using Microsoft.AspNet.Identity
+
+@model  List<Article>
+@{
+    ViewBag.Page2 = "nav-item active";
+    ViewBag.Hidden = "hidden = \"hidden\"";
+}
+
+@functions {
+    public string isActive(bool Condition)
+    {
+        if (Condition)
+        {
+            return "active";
+        }
+        else
+        {
+            return "";
+        }
+    }
+
+    public string isHidden(bool Condition)
+    {
+        if (Condition)
+        {
+            return "hidden = \"hidden\"";
+        }
+        else
+        {
+            return "";
+        }
+    }
+
+    public string colorMess(int? code)
+    {
+        if (code == 1)
+        {
+            return "danger";
+        }
+        return "primary";
+    }
+
+    public int getNextArtID(List<Article> articles, int ArticleID)
+    {
+        if (articles.Count() > 1)
+        {
+            for (int i = 0; i < articles.Count(); i++)
+            {
+                if (articles[i].ID == ArticleID)
+                {
+                    if (i + 1 != articles.Count())
+                    {
+                        return articles[i + 1].ID;
+                    }
+                    if (i - 1 != -1)
+                    {
+                        return articles[i - 1].ID;
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+}
+
+@*Вывод всех категорий в навигационной панели*@
+<ul class="nav nav-pills nav-fill mb-3" id="pills-tab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link @isActive(Model == null)" id="cat-id-0"
+           href="/Blogs/Index">Интересное</a>
+    </li>
+    @foreach (var cat in ViewBag.Categorys)
+    {
+        <li class="nav-item">
+            <a class="nav-link @isActive(cat.ID == ViewBag.categoryID)" id="cat-id-@cat.ID"
+               href="/Blogs/Index/?CategoryID=@cat.ID">@cat.Name</a>
+        </li>
+    }
+</ul>
+
+@*Если передали категорию, то выводим содержимое вкладки "Интересное"*@
+@if (ViewBag.categoryID == 0)
+{
+
+    //Оповещения
+    <div class="alert alert-@colorMess(ViewBag.MessageCode) col-12" @isHidden(ViewBag.Message == null) role="alert">
+        @ViewBag.Message
+    </div>
+
+    //Выводим несколько категорий с картинками
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-4">
+                <a href="/Blogs/Index/?CategoryID=1">
+                    <figure class="figure-img">
+                        <img src="~/Content/Images/News.jpg" class="figure-img img-fluid rounded" alt="Новости">
+                        <figcaption class="figure-caption text-center">Новости</figcaption>
+                    </figure>
+                </a>
+            </div>
+            <div class="col-4">
+                <a href="/Blogs/Index/?CategoryID=2">
+                    <figure class="figure-img">
+                        <img src="~/Content/Images/IT.jpg" class="figure-img img-fluid rounded" alt="IT">
+                        <figcaption class="figure-caption text-center">IT</figcaption>
+                    </figure>
+                </a>
+            </div>
+            <div class="col-4">
+                <a href="/Blogs/Index/?CategoryID=3">
+                    <figure class="figure-img">
+                        <img src="~/Content/Images/HiTech.jpg" class="figure-img img-fluid rounded" alt="HiTech">
+                        <figcaption class="figure-caption text-center">HiTech</figcaption>
+                    </figure>
+                </a>
+            </div>
+        </div>
+        <div class="row align-items-center">
+            <div class="col-4">
+                <a href="/Blogs/Index/?CategoryID=6">
+                    <figure class="figure-img">
+                        <img src="~/Content/Images/Music.jpg" class="figure-img img-fluid rounded" alt="Музыка">
+                        <figcaption class="figure-caption text-center">Музыка</figcaption>
+                    </figure>
+                </a>
+            </div>
+            <div class="col-4">
+                <a href="/Blogs/Index/?CategoryID=5">
+                    <figure class="figure-img">
+                        <img src="~/Content/Images/Cinema.jpg" class="figure-img img-fluid rounded" alt="Кино">
+                        <figcaption class="figure-caption text-center">Кино</figcaption>
+                    </figure>
+                </a>
+            </div>
+            <div class="col-4">
+                <a href="/Blogs/Index/?CategoryID=7">
+                    <figure class="figure-img">
+                        <img src="~/Content/Images/Beauty.jpg" class="figure-img img-fluid rounded" alt="Красота и здоровье">
+                        <figcaption class="figure-caption text-center">Красота и здоровье</figcaption>
+                    </figure>
+                </a>
+            </div>
+        </div>
+    </div>
+}
+else //Если категория была указана в запросе, то открываем ее и вывоводим 10 последних статей
+{
+    int categoryID = ViewBag.categoryID;
+    IDbSet<ApplicationUser> authors = ViewBag.Authors;
+    DbSet<Category> categorys = ViewBag.Categorys;
+    DbSet<Favorites> favorites = ViewBag.Favorites;
+    Category one_category = categorys.Where(x => x.ID == categoryID).ToList()[0];
+
+    <div class="container">
+
+        @*Выводим заголовок категории и кнопку создания статьи*@
+        <div class="row align-items-center">
+            <div class="col-md-9">
+                <h2 class="display-4 mb-3">@one_category.Name</h2>
+            </div>
+            @if (Request.IsAuthenticated)
+            {
+                <div class="col-md-3 text-right mb-md-0 mb-2">
+                    <a class="btn btn-primary" href="/Blogs/Create/?CategoryID=@categoryID">Создать статью</a>
+                </div>
+            }
+        </div>
+
+        @*Выводим оповещение, если оно было*@
+        <div class="alert alert-@colorMess(ViewBag.MessageCode) col-12" @isHidden(ViewBag.Message == null) role="alert">
+            @ViewBag.Message
+        </div>
+
+        @*Выводим статьи*@
+        @foreach (Article art in Model)
+        {
+            <div class="row" id="@("article" + art.ID)">
+                <div class="alert alert-secondary col-12" role="alert">
+                    @*Тема и набор кнопок*@
+                    <div class="row align-items-center">
+                        <div class="col-lg-9 text-center">
+                            <h3>@art.Subject</h3>
+                        </div>
+                        <div class="col-lg-3 text-center text-lg-right">
+                            @*Скрываем кнопки, если это не текущий пользователь*@
+                            @if (Request.IsAuthenticated)
+                            {
+                                <a class="btn btn-danger mb-1 btn-sm" href="/Blogs/Delete/?CategoryID=@art.CategoryID&ArticleID=@art.ID&page=@ViewBag.CurrentPage&NextArticleID=@getNextArtID(Model, art.ID)" @isHidden(art.AuthorID != User.Identity.GetUserId())>Удалить</a>
+                                <a class="btn btn-warning mb-1 btn-sm" href="/Blogs/Edit/?ArticleID=@art.ID&page=@ViewBag.CurrentPage&CategoryID=@art.CategoryID" @isHidden(art.AuthorID != User.Identity.GetUserId())>Редактировать</a>
+                            }
+                            <button type="button" class="btn btn-secondary btn-sm mb-1" data-toggle="collapse"
+                                    href="#@("articleText" + art.ID)" aria-expanded="false"
+                                    aria-controls="@("articleText" + art.ID)">
+                                Развернуть/Свернуть
+                            </button>
+                        </div>
+                    </div>
+                    <blockquote class="blockquote">
+                        <hr />
+                        @*Сворачиваемое содержимое с текстом статьи*@
+                        <div class="collapse multi-collapse" id="@("articleText" + art.ID)">
+                            <p>@Html.Raw(Html.Encode(art.Text).Replace("\r\n", "</p><p>"))</p>
+                            <hr />
+                        </div>
+                        @*Кнопка добавления в избранное, подпись автора, дата и время*@
+                        <div class="row align-items-center">
+
+                            <div class="col-sm-4 text-right text-sm-left">
+                                @if (Request.IsAuthenticated)
+                                {
+                                    string CurrentUserID = User.Identity.GetUserId();
+                                    <a class="btn btn-info btn-sm" href="/Blogs/AddFavorites/?ArticleID=@art.ID&page=@ViewBag.CurrentPage"
+                                       @isHidden(favorites.Where(x => x.UserID == CurrentUserID && x.ArticleID == art.ID).ToList().Count() >= 1)>Добавить в избранное</a>
+                                }
+                            </div>
+                            <div class="col-sm-8">
+                                @{
+                                    ApplicationUser author = authors.Where(x => x.Id == art.AuthorID).ToList()[0];
+                                }
+                                <footer class="blockquote-footer text-right">@author.LastName @author.FirstName - @art.DT.ToString("dd.MM.yyyy HH:mm") / <cite title="MyBlog">MyBlog</cite></footer>
+                            </div>
+                        </div>
+                    </blockquote>
+                </div>
+            </div>
+        }
+    </div>
+
+    // Выводим преключатели между страницами, если статей больше 10
+    if (ViewBag.CountPage > 1)
+    {
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                @*Ссылка перехода на предыдущую страницу*@
+                <li class="page-item @ViewBag.FirstPageDiasbled">
+                    <a class="page-link"
+                       href="/Blogs/Index/?CategoryID=@ViewBag.categoryID&page=@(ViewBag.CurrentPage-1)">Назад</a>
+                </li>
+                @*Если страниц не больше 5, то выводим ссылки на все*@
+                @if (ViewBag.CountPage <= 5)
+                {
+                    for (int i = 0; i < ViewBag.CountPage; i++)
+                    {
+                        <li class="page-item @isActive(ViewBag.CurrentPage==i+1)"><a class="page-link" href="/Blogs/Index/?CategoryID=@categoryID&page=@(i+1)">@(i + 1)</a></li>
+                    }
+                }
+                else
+                {
+                    // Если страниц больше 5, то выводим ссылки только 5 ближайших
+
+                    // Если текущая страница имеет слева и справа хотя бы по 2, то
+                    // Выводим слева и справа от текущей по 2 страницы
+                    if (ViewBag.CurrentPage > 2 && ViewBag.CurrentPage < ViewBag.CountPage - 1)
+                    {
+                        for (int i = ViewBag.CurrentPage - 3; i < ViewBag.CurrentPage + 2; i++)
+                        {
+                            <li class="page-item @isActive(ViewBag.CurrentPage == i + 1)"><a class="page-link" href="/Blogs/Index/?CategoryID=@categoryID&page=@(i + 1)">@(i + 1)</a></li>
+                        }
+                    }
+                    else
+                    {
+                        // Если страниц меню слева от текущей 1 или меньше,
+                        // то выводим первые 5 ссылок на страницы
+                        if (ViewBag.CurrentPage <= 2)
+                        {
+                            for (int i = 0; i < 5; i++)
+                            {
+                                <li class="page-item @isActive(ViewBag.CurrentPage == i + 1)"><a class="page-link" href="/Blogs/Index/?CategoryID=@categoryID&page=@(i + 1)">@(i + 1)</a></li>
+                            }
+                        }
+                        else
+                        {
+                            // Если страниц меню справа от текущей 1 или меньше,
+                            // то выводим последние 5 ссылок на страницы
+                            if (ViewBag.CurrentPage >= ViewBag.CountPage - 1)
+                            {
+                                for (int i = ViewBag.CountPage - 5; i < ViewBag.CountPage; i++)
+                                {
+                                    <li class="page-item @isActive(ViewBag.CurrentPage==i+1)"><a class="page-link" href="/Blogs/Index/?CategoryID=@categoryID&page=@(i+1)">@(i + 1)</a></li>
+                                }
+                            }
+                        }
+                    }
+                }
+                @*Ссылка перехода на следующую страницу*@
+                <li class="page-item @ViewBag.LastPageDiasbled">
+                    <a class="page-link"
+                       href="/Blogs/Index/?CategoryID=@ViewBag.categoryID&page=@(ViewBag.CurrentPage+1)">Далее</a>
+                </li>
+            </ul>
+        </nav>
+    }
+}

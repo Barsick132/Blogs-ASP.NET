@@ -1,0 +1,192 @@
+﻿@using Lab1.Models;
+@using System.Linq;
+@using System.Data.Entity;
+@using Microsoft.AspNet.Identity
+
+@model List<Favorites>
+
+@{
+    ViewBag.Page3 = "nav-item active";
+    ViewBag.Hidden = "hidden = \"hidden\"";
+
+    DbSet<Article> articles = ViewBag.Articles;
+    DbSet<Category> categorys = ViewBag.Categorys;
+    DbSet<ApplicationUser> authors = ViewBag.Authors;
+}
+
+@functions {
+    public string isActive(bool Condition)
+    {
+        if (Condition)
+        {
+            return "active";
+        }
+        else
+        {
+            return "";
+        }
+    }
+
+    public string isHidden(bool Condition)
+    {
+        if (Condition)
+        {
+            return "hidden = \"hidden\"";
+        }
+        else
+        {
+            return "";
+        }
+    }
+
+    public string colorMess(int? code)
+    {
+        if (code == 1)
+        {
+            return "danger";
+        }
+        return "primary";
+    }
+
+    public int getNextArtID(List<Favorites> favorites, int ArticleID)
+    {
+        if (favorites.Count() > 1)
+        {
+            for (int i = 0; i < favorites.Count(); i++)
+            {
+                if (favorites[i].ArticleID == ArticleID)
+                {
+                    if (i + 1 != favorites.Count())
+                    {
+                        return favorites[i + 1].ArticleID;
+                    }
+                    if (i - 1 != -1)
+                    {
+                        return favorites[i - 1].ArticleID;
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+}
+
+<h2 class="display-4 mb-3">Избранное</h2>
+
+@*Оповещения*@
+<div class="alert alert-@colorMess(ViewBag.MessageCode) col-12" @isHidden(ViewBag.Message == null) role="alert">
+    @ViewBag.Message
+</div>
+
+@*Выводим избранные статьи*@
+@foreach (Favorites fav in Model)
+{
+    Article art = articles.Where(x => x.ID == fav.ArticleID).ToList()[0];
+    ApplicationUser author = authors.Where(x => x.Id == art.AuthorID).ToList()[0];
+    Category cat = categorys.Where(x => x.ID == art.CategoryID).ToList()[0];
+    <div class="row" id="@("article" + art.ID)">
+        <div class="alert alert-secondary col-12" role="alert">
+            @*Тема и набор кнопок*@
+            <div class="row align-items-center">
+                <div class="col-lg-9 text-center">
+                    <h3>@art.Subject <span class="badge badge-primary">@cat.Name</span></h3>
+                </div>
+                <div class="col-lg-3 text-center text-lg-right">
+                    @*Скрываем кнопки, если это не текущий пользователь*@
+                    @if (Request.IsAuthenticated)
+                    {
+                        <a class="btn btn-danger mb-1 btn-sm" href="/Blogs/Delete/?ArticleID=@art.ID&page=@ViewBag.CurrentPage&NextArticleID=@getNextArtID(Model, art.ID)" @isHidden(art.AuthorID != User.Identity.GetUserId())>Удалить</a>
+                        <a class="btn btn-warning mb-1 btn-sm" href="/Blogs/Edit/?ArticleID=@art.ID" @isHidden(art.AuthorID != User.Identity.GetUserId())>Редактировать</a>
+                    }
+                    <button type="button" class="btn btn-secondary btn-sm mb-1" data-toggle="collapse"
+                            href="#@("articleText" + art.ID)" aria-expanded="false"
+                            aria-controls="@("articleText" + art.ID)">
+                        Развернуть/Свернуть
+                    </button>
+                </div>
+            </div>
+            <blockquote class="blockquote">
+                <hr />
+                @*Сворачиваемое содержимое с текстом статьи*@
+                <div class="collapse multi-collapse" id="@("articleText" + art.ID)">
+                    <p>@Html.Raw(Html.Encode(art.Text).Replace("\r\n", "</p><p>"))</p>
+                    <hr />
+                </div>
+                @*Кнопка добавления в избранное, подпись автора, дата и время*@
+                <div class="row align-items-center">
+                    <div class="col-sm-4 text-right text-sm-left">
+                        <a class="btn btn-info btn-sm" href="/Blogs/DelFavorites/?ArticleID=@art.ID&page=@ViewBag.CurrentPage&NextArticleID=@getNextArtID(Model, art.ID)">Удалить из избранного</a>
+                    </div>
+                    <div class="col-sm-8">
+                        <footer class="blockquote-footer text-right">@author.LastName @author.FirstName - @art.DT.ToString("dd.MM.yyyy HH:mm") / <cite title="MyBlog">MyBlog</cite></footer>
+                    </div>
+                </div>
+            </blockquote>
+        </div>
+    </div>
+}
+
+@*Выводим преключатели между страницами, если статей больше 10*@
+@if (ViewBag.CountPage > 1)
+{
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            @*Ссылка перехода на предыдущую страницу*@
+            <li class="page-item @ViewBag.FirstPageDiasbled">
+                <a class="page-link"
+                   href="/Blogs/Favorites/?page=@(ViewBag.CurrentPage-1)">Назад</a>
+            </li>
+            @*Если страниц не больше 5, то выводим ссылки на все*@
+            @if (ViewBag.CountPage <= 5)
+            {
+                for (int i = 0; i < ViewBag.CountPage; i++)
+                {
+                    <li class="page-item @isActive(ViewBag.CurrentPage==i+1)"><a class="page-link" href="/Blogs/Favorites/?page=@(i+1)">@(i + 1)</a></li>
+                }
+            }
+            else
+            {
+                // Если страниц больше 5, то выводим ссылки только 5 ближайших
+
+                // Если текущая страница имеет слева и справа хотя бы по 2, то
+                // Выводим слева и справа от текущей по 2 страницы
+                if (ViewBag.CurrentPage > 2 && ViewBag.CurrentPage < ViewBag.CountPage - 1)
+                {
+                    for (int i = ViewBag.CurrentPage - 3; i < ViewBag.CurrentPage + 2; i++)
+                    {
+                        <li class="page-item @isActive(ViewBag.CurrentPage == i + 1)"><a class="page-link" href="/Blogs/Favorites/?page=@(i + 1)">@(i + 1)</a></li>
+                    }
+                }
+                else
+                {
+                    // Если страниц меню слева от текущей 1 или меньше,
+                    // то выводим первые 5 ссылок на страницы
+                    if (ViewBag.CurrentPage <= 2)
+                    {
+                        for (int i = 0; i < 5; i++)
+                        {
+                            <li class="page-item @isActive(ViewBag.CurrentPage == i + 1)"><a class="page-link" href="/Blogs/Favorites/?page=@(i + 1)">@(i + 1)</a></li>
+                        }
+                    }
+                    else
+                    {
+                        // Если страниц меню справа от текущей 1 или меньше,
+                        // то выводим последние 5 ссылок на страницы
+                        if (ViewBag.CurrentPage >= ViewBag.CountPage - 1)
+                        {
+                            for (int i = ViewBag.CountPage - 5; i < ViewBag.CountPage; i++)
+                            {
+                                <li class="page-item @isActive(ViewBag.CurrentPage==i+1)"><a class="page-link" href="/Blogs/Favorites/?page=@(i+1)">@(i + 1)</a></li>
+                            }
+                        }
+                    }
+                }
+            }
+            @*Ссылка перехода на следующую страницу*@
+            <li class="page-item @ViewBag.LastPageDiasbled">
+                <a class="page-link"
+                   href="/Blogs/Favorites/?page=@(ViewBag.CurrentPage+1)">Далее</a>
+            </li>
+        </ul>
+    </nav>
+}

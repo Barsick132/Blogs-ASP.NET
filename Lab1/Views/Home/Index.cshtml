@@ -1,0 +1,74 @@
+﻿@{
+    ViewBag.Page1 = "nav-item active";
+    ViewBag.Hidden1 = "hidden = \"hidden\"";
+}
+
+<div id="carouselExampleIndicators" class="carousel slide mb-3" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img class="d-block w-100" src="~/Content/Images/home_carusel1.jpg" alt="Первый слайд">
+            <div class="carousel-caption d-none d-md-block">
+                <div class="alert alert-warning text-dark" style="opacity: 0.7; filter: alpha(Opacity=70);" role="alert">
+                    <h2>Делись тем, что любишь</h2>
+                    <h4>Делитесь интересными историями, полезными советами и впечатляющими лайвхаками</h4>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img class="d-block w-100" src="~/Content/Images/home_carusel2.jpg" alt="Второй слайд">
+            <div class="carousel-caption d-none d-md-block">
+                <div class="alert alert-warning text-dark" style="opacity: 0.7; filter: alpha(Opacity=70);" role="alert">
+                    <h2>Занимайся творчеством</h2>
+                    <h4>Выплесните все что у вас накипело в вашем блоге, возможно, у вас есть единомышленники ;)</h4>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img class="d-block w-100" src="~/Content/Images/home_carusel3.jpg" alt="Третий слайд">
+            <div class="carousel-caption d-none d-md-block">
+                <div class="alert alert-warning text-dark" style="opacity: 0.7; filter: alpha(Opacity=70);" role="alert">
+                    <h2>Придумывайте что-то новенькое</h2>
+                    <h4>Старайтесь разнообразить свой контент, чтобы не потерять любимых читателей</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Назад</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Далее</span>
+    </a>
+</div>
+
+<h1 class="display-4">Хотите начать вести блог и стать популярным?</h1>
+    <p>
+        Тогда мы хотим предложить вашему вниманию наш удобный и простой сервис предназначенный специально для ведения и чтения блогов!
+        Здесь вы сможете быстро и просто создавать статьи, компоновать их по группам, чтобы
+        привлечь только заинтересованную публиику.
+    </p>
+    <p>
+        Чтобы начать свой блог прямо сейчас вам необходимо <a href="/Account/Register">зарегистрировать</a> свой аккаунт,
+        а затем перейти в раздел <a href="/Blogs/Index">Блоги</a>, чтобы создать статью на определенную тему.
+</p>
+<h1 class="display-4">Вы хотите просто почитать интересные статьи?</h1>
+    <p>
+        Вам тоже подходит MyBlog! Чтобы читать интересные статьи, забавные истории и полезные
+        лайфхаки пользователей со всей страны, вам даже не нужно регистрироваться на сайте.
+        Просто перейдите в <a href="/Blogs/Index">Блоги</a>, выберете интересующий вас раздел, а затем откройте понравившуюся статью.
+    </p>
+    <p>
+        Свои комментарии вы можете оставлять под статьей! Также вы можете ставить лайки, понравившимся статьям,
+        благодарить авторов и подписываться.
+    </p>
+<blockquote class="blockquote text-right">
+    <p class="mb-0">Развивайтесь, делитесь, дружите и общайтесь в свое удовольствие!</p>
+    <footer class="blockquote-footer">С уважением, Администрация <cite title="MyBlog">MyBlog</cite></footer>
+</blockquote>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" Sdk="Microsoft.Docker.Sdk">
+  <PropertyGroup Label="Globals">
+    <ProjectVersion>2.0</ProjectVersion>
+    <DockerTargetOS>Windows</DockerTargetOS>
+    <ProjectGuid>c335c953-3b4e-45b4-87b4-cdd79623a87d</ProjectGuid>
+    <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
+    <DockerServiceUrl>http://{ServiceIPAddress}</DockerServiceUrl>
+    <DockerServiceName>lab1</DockerServiceName>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="docker-compose.override.yml">
+      <DependentUpon>docker-compose.yml</DependentUpon>
+    </None>
+    <None Include="docker-compose.yml" />
+    <None Include="Lab1\Views\Account\ConfirmEmail.cshtml" />
+    <None Include="Lab1\Views\Account\ExternalLoginConfirmation.cshtml" />
+    <None Include="Lab1\Views\Account\ExternalLoginFailure.cshtml" />
+    <None Include="Lab1\Views\Account\ForgotPassword.cshtml" />
+    <None Include="Lab1\Views\Account\ForgotPasswordConfirmation.cshtml" />
+    <None Include="Lab1\Views\Account\Login.cshtml" />
+    <None Include="Lab1\Views\Account\Register.cshtml" />
+    <None Include="Lab1\Views\Account\ResetPassword.cshtml" />
+    <None Include="Lab1\Views\Account\ResetPasswordConfirmation.cshtml" />
+    <None Include="Lab1\Views\Account\SendCode.cshtml" />
+    <None Include="Lab1\Views\Account\VerifyCode.cshtml" />
+    <None Include="Lab1\Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <None Include="Lab1\Views\Manage\AddPhoneNumber.cshtml" />
+    <None Include="Lab1\Views\Manage\ChangePassword.cshtml" />
+    <None Include="Lab1\Views\Manage\Index.cshtml" />
+    <None Include="Lab1\Views\Manage\ManageLogins.cshtml" />
+    <None Include="Lab1\Views\Manage\SetPassword.cshtml" />
+    <None Include="Lab1\Views\Manage\VerifyPhoneNumber.cshtml" />
+  </ItemGroup>
+</Project>

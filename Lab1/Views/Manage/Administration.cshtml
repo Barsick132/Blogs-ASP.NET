@@ -1,0 +1,78 @@
+﻿@model IEnumerable<Lab1.Models.ApplicationUser>
+
+@{
+    ViewBag.Page5 = "nav-item active";
+}
+
+<h2 class="display-4 mb-3">Администрирование</h2>
+
+<p>
+    @Html.ActionLink("Создать ", "Create")
+</p>
+<div class="table-responsive">
+<table class="table table-hover table-sm">
+    <thead class="thead-dark">
+        <tr>
+            <th class="col align-middle text-center">
+                @Html.Label("ФИО")
+            </th>
+            <th class="col align-middle text-center">
+                @Html.Label("Дата рождения")
+            </th>
+            <th class="col align-middle text-center">
+                @Html.Label("Пол")
+            </th>
+            <th class="col align-middle text-center">
+                @Html.Label("Email")
+            </th>
+            <th class="col align-middle text-center">
+                @Html.Label("Телефон")
+            </th>
+            <th class="col align-middle text-center">
+                @Html.Label("Время блокировки")
+            </th>
+            <th class="col align-middle text-center">
+                @Html.Label("Возможность блокировки")
+            </th>
+            <th class="col align-middle text-center">
+                @Html.Label("Имя пользователя")
+            </th>
+            <th class="col align-middle text-center">@Html.Label("Управление")</th>
+        </tr>
+    </thead>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.Label(item.LastName + " " + item.FirstName + " " + item.MiddleName)
+        </td>
+        <td>
+            <label>@item.BirthDay.ToString("dd.MM.yyyy")</label>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Sex)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PhoneNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LockoutEndDateUtc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LockoutEnabled)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+        <td>
+            @Html.ActionLink("Блокировать", "Lock", new { id=item.Id })<br/>
+            @Html.ActionLink("Разблокировать", "Unlock", new { id=item.Id })<br />
+            @Html.ActionLink("Удалить", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
+    </div>

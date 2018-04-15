@@ -1,0 +1,60 @@
+﻿@using Lab1.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Авторизация";
+    ViewBag.Page4 = "nav-item active";
+}
+<h2 class="display-4 mb-3">Авторизация</h2>
+@if (!Request.IsAuthenticated)
+{
+    using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+<div class="container alert alert-success" role="alert">
+    <h4>Используйте локальную учетную запись для входа</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="row mb-2 align-items-end">
+        <div class="col-lg-3 text-lg-right">
+            @Html.LabelFor(m => m.Email)
+        </div>
+        <div class="col-lg-9">
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row mb-2 align-items-end">
+        <div class="col-lg-3 text-lg-right">
+            @Html.LabelFor(m => m.Password)
+        </div>
+        <div class="col-lg-9">
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="offset-lg-3 col-lg-9">
+            <div class="checkbox">
+                @Html.CheckBoxFor(m => m.RememberMe)
+                @Html.LabelFor(m => m.RememberMe)
+            </div>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="offset-lg-3 col-lg-9 form-inline">
+            <input type="submit" class="btn btn-primary mr-1 mb-1" value="Вход">
+            <input type="button" class="btn btn-secondary mb-1" href="/Account/Register" value="Регистрация">
+        </div>
+    </div>
+</div>
+    }
+}
+else
+{
+    <div class="container alert alert-danger" role="alert">
+        Вы уже зарегистрированы и авторизованы.
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

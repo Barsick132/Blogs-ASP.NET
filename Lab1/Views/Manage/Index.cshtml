@@ -1,0 +1,95 @@
+﻿@using Lab1.Models
+@using Microsoft.AspNet.Identity.EntityFramework
+@model Lab1.Models.IndexViewModel
+@{
+    ViewBag.Page4 = "nav-item active";
+    ApplicationUser currentUser = ViewBag.CurrentUser;
+    IList<string> roles = ViewBag.RolesCurrentUser;
+}
+
+@functions
+{
+    public string isRole(string role)
+    {
+        if (User.IsInRole(role))
+        {
+            return role;
+        }
+        else
+        {
+            return "";
+        }
+    }
+}
+<h2 class="display-4 mb-3">Личный кабинет</h2>
+@if (Request.IsAuthenticated)
+{
+    <div class="container alert alert-info" role="alert">
+        <p class="text-success">@ViewBag.StatusMessage</p>
+        <div class="row mb-2 align-items-center">
+            <div class="col-sm-4 text-sm-right">
+                <b>Полное имя:</b>
+            </div>
+            <div class="col-sm-8">
+                @(currentUser.LastName + " " + currentUser.FirstName + " " + currentUser.MiddleName)
+            </div>
+        </div>
+        <div class="row mb-2 align-items-center">
+            <div class="col-sm-4 text-sm-right">
+                <b>Дата рождения:</b>
+            </div>
+            <div class="col-sm-8">
+                @currentUser.BirthDay.ToString("dd.MM.yyyy")
+            </div>
+        </div>
+        <div class="row mb-2 align-items-center">
+            <div class="col-sm-4 text-sm-right">
+                <b>Email:</b>
+            </div>
+            <div class="col-sm-8">
+                @currentUser.Email
+            </div>
+        </div>
+        <div class="row mb-2 align-items-center">
+            <div class="col-sm-4 text-sm-right">
+                <b>Телефон:</b>
+            </div>
+            <div class="col-sm-8">
+                @currentUser.PhoneNumber
+            </div>
+        </div>
+        <div class="row mb-2 align-items-center">
+            <div class="col-sm-4 text-sm-right">
+                <b>Роли:</b>
+            </div>
+            <div class="col-sm-8">
+                @foreach (string role in roles)
+                {
+                    <div>@role </div>
+                }
+            </div>
+        </div>
+        <div class="row mb-2 align-items-center">
+            <div class="col-sm-4 text-sm-right">
+                <b>Пол:</b>
+            </div>
+            <div class="col-sm-8">
+                @currentUser.Sex
+            </div>
+        </div>
+        <div class="row mb-2 align-items-center">
+            <div class="col-sm-4 text-sm-right">
+                <b>Пароль:</b>
+            </div>
+            <div class="col-sm-8">
+                @Html.ActionLink("Смена пароля", "ChangePassword", new { area = "" }, new { @class = "btn btn-primary", role = "button" })
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container alert alert-danger" role="alert">
+        Вы <a href="/Account/Login">не авторизованы</a> для просмотра этой страницы.
+    </div>
+}

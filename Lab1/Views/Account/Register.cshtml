@@ -1,0 +1,107 @@
+﻿@model Lab1.Models.RegisterViewModel
+@{
+    ViewBag.Page3 = "nav-item active";
+}
+<h2 class="display-4 mb-3">Регистрация</h2>
+@if (!Request.IsAuthenticated)
+{
+    using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+<div class="container alert alert-warning" role="alert">
+    @Html.ValidationSummary("", new { @class = "text-danger mb-2" })
+    <div class="row mb-2 align-items-end">
+        <div class="col-md-3 text-md-right">
+            @Html.LabelFor(m => m.LastName)<label class="text-danger">*</label>
+        </div>
+        <div class="col-md-9">
+            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Введите фамилию" })
+        </div>
+    </div>
+    <div class="row mb-2 align-items-end">
+        <div class="col-md-3 text-md-right">
+            @Html.LabelFor(m => m.FirstName)<label class="text-danger">*</label>
+        </div>
+        <div class="col-md-9">
+            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder = "Введите имя" })
+        </div>
+    </div>
+    <div class="row mb-2 align-items-end">
+        <div class="col-md-3 text-md-right">
+            @Html.LabelFor(m => m.MiddleName)
+        </div>
+        <div class="col-md-9">
+            @Html.TextBoxFor(m => m.MiddleName, new { @class = "form-control", @placeholder = "Введите отчество" })
+        </div>
+    </div>
+    <div class="row align-items-end">
+        <div class="col-md-3 text-md-right">
+            @Html.LabelFor(m => m.BirthDay)<label class="text-danger">*</label>
+        </div>
+        <div class="col-md-9">
+            @Html.EditorFor(m => m.BirthDay, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+    </div>
+    <div class="row mt-1 mb-2 align-items-end">
+        <div class="col-md-3 text-md-right">
+            @Html.LabelFor(m => m.Email)<label class="text-danger">*</label>
+        </div>
+        <div class="col-md-9">
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Введите Email" })
+        </div>
+    </div>
+    <div class="row mb-2 align-items-end">
+        <div class="col-md-3 text-md-right">
+            @Html.LabelFor(m => m.Password)<label class="text-danger">*</label>
+        </div>
+        <div class="col-md-9">
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Введите пароль" })
+        </div>
+    </div>
+    <div class="row mb-2 align-items-end">
+        <div class="col-md-3 text-md-right">
+            @Html.LabelFor(m => m.ConfirmPassword)<label class="text-danger">*</label>
+        </div>
+        <div class="col-md-9">
+            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @placeholder = "Повторите пароль" })
+        </div>
+    </div>
+    <div class="row mb-2 align-items-end">
+        <div class="col-md-3 text-md-right">
+            @Html.LabelFor(m => m.PhoneNumber)
+        </div>
+        <div class="col-md-9">
+            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", @placeholder = "Введите номер телефона" })
+        </div>
+    </div>
+    <div class="row mb-2 align-items-end">
+        <div class="col-md-3 text-md-right">
+            @Html.LabelFor(m => m.Sex)<label class="text-danger">*</label>
+        </div>
+        <div class="col-sm-9">
+            <label class="radio-inline">
+                @Html.RadioButtonFor(m => m.Sex, "Мужской") Муж
+            </label>
+            <label class="radio-inline ml-sm-2">
+                @Html.RadioButtonFor(m => m.Sex, "Женский") Жен
+            </label>
+        </div>
+    </div>
+    <div class="offset-md-3 col-md-9"><label class="text-danger">*</label> - обязательные для заполнения поля</div>
+    <div class="row mb-2">
+        <div class="offset-md-3 col-md-9">
+            <input type="submit" class="btn btn-primary" value="Регистрация">
+        </div>
+    </div>
+</div>
+    }
+}
+else
+{
+    <div class="container alert alert-danger" role="alert">
+        Вы уже зарегистрированы и авторизованы.
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

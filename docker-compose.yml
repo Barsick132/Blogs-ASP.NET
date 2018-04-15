@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  lab1:
+    image: lab1
+    build:
+      context: .\Lab1
+      dockerfile: Dockerfile
