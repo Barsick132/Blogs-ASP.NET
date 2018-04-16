@@ -23,3 +23,18 @@
 2018-04-16 07:09:36.1541 Lab1.Controllers.BlogsController.Index Info: 16.04.2018 07:09:36 in /Blogs/Index : —тать€ уже находитс€ у вас в »збранном.  ActionMethodDispatcher.Execute => <no type>.lambda_method => BlogsController.Index
 2018-04-16 07:09:46.4919 Lab1.Controllers.BlogsController.Index Info: 16.04.2018 07:09:46 in /Blogs/Index : —тать€, которую вы пытаетесь удалить, не существует.  ActionMethodDispatcher.Execute => <no type>.lambda_method => BlogsController.Index
 2018-04-16 07:09:58.3873 Lab1.Controllers.BlogsController.Index Info: 16.04.2018 07:09:58 in /Blogs/Index : —тать€, которую вы пытались отредактировать, не существует.  ActionMethodDispatcher.Execute => <no type>.lambda_method => BlogsController.Index
+2018-04-16 08:24:27.4550 Lab1.MvcApplication.Application_Start Info: Application Start  RuntimeMethodInfo.UnsafeInvokeInternal => RuntimeMethodHandle.InvokeMethod => MvcApplication.Application_Start
+2018-04-16 08:29:30.2694 Lab1.MvcApplication.Application_Start Info: Application Start  RuntimeMethodInfo.UnsafeInvokeInternal => RuntimeMethodHandle.InvokeMethod => MvcApplication.Application_Start
+2018-04-16 10:03:24.5806 Lab1.MvcApplication.Application_Start Info: Application Start  RuntimeMethodInfo.UnsafeInvokeInternal => RuntimeMethodHandle.InvokeMethod => MvcApplication.Application_Start
+2018-04-16 10:12:47.6686 Lab1.MvcApplication.Application_Start Info: Application Start  RuntimeMethodInfo.UnsafeInvokeInternal => RuntimeMethodHandle.InvokeMethod => MvcApplication.Application_Start
+2018-04-16 10:55:29.7413 Lab1.MvcApplication.Application_Start Info: Application Start  RuntimeMethodInfo.UnsafeInvokeInternal => RuntimeMethodHandle.InvokeMethod => MvcApplication.Application_Start
+2018-04-16 10:56:34.4288 Lab1.MvcApplication.Application_Start Info: Application Start  RuntimeMethodInfo.UnsafeInvokeInternal => RuntimeMethodHandle.InvokeMethod => MvcApplication.Application_Start
+2018-04-16 10:57:02.6041 Lab1.MvcApplication.Application_Error Info: Application Error  RuntimeMethodInfo.UnsafeInvokeInternal => RuntimeMethodHandle.InvokeMethod => MvcApplication.Application_Error
+2018-04-16 10:57:37.6507 Lab1.MvcApplication.Application_Error Info: Application Error  RuntimeMethodInfo.UnsafeInvokeInternal => RuntimeMethodHandle.InvokeMethod => MvcApplication.Application_Error
+2018-04-16 10:59:03.3851 Lab1.MvcApplication.Application_Start Info: Application Start  RuntimeMethodInfo.UnsafeInvokeInternal => RuntimeMethodHandle.InvokeMethod => MvcApplication.Application_Start
+2018-04-16 11:00:16.6876 Lab1.MvcApplication.Application_Start Info: Application Start  RuntimeMethodInfo.UnsafeInvokeInternal => RuntimeMethodHandle.InvokeMethod => MvcApplication.Application_Start
+2018-04-16 11:01:37.0651 Lab1.MvcApplication.Application_End Info: Application End  RuntimeMethodInfo.UnsafeInvokeInternal => RuntimeMethodHandle.InvokeMethod => MvcApplication.Application_End
+2018-04-16 11:01:59.0112 Lab1.MvcApplication.Application_Start Info: Application Start  RuntimeMethodInfo.UnsafeInvokeInternal => RuntimeMethodHandle.InvokeMethod => MvcApplication.Application_Start
+2018-04-16 13:20:11.7754 Lab1.MvcApplication.Application_Start Info: Application Start  RuntimeMethodInfo.UnsafeInvokeInternal => RuntimeMethodHandle.InvokeMethod => MvcApplication.Application_Start
+2018-04-16 13:21:23.2418 Lab1.MvcApplication.Application_Start Info: Application Start  RuntimeMethodInfo.UnsafeInvokeInternal => RuntimeMethodHandle.InvokeMethod => MvcApplication.Application_Start
+2018-04-16 13:23:28.3721 Lab1.MvcApplication.Application_Start Info: Application Start  RuntimeMethodInfo.UnsafeInvokeInternal => RuntimeMethodHandle.InvokeMethod => MvcApplication.Application_Start

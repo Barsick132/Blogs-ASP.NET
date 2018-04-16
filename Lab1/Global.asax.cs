@@ -19,7 +19,7 @@ namespace Lab1
 
             AreaRegistration.RegisterAllAreas();
 
-            Database.SetInitializer<ApplicationDbContext>(new AppDbInitializer());
+            //Database.SetInitializer<ApplicationDbContext>(new AppDbInitializer());
 
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
