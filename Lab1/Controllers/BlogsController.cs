@@ -35,14 +35,37 @@ namespace Lab1.Controllers
                     : message == MessageStatus.UserForFavoritesNotFound ? "Не определен текущий пользователь, чтобы открыть его Избранные статьи."
                     : "";
                 //Определитель цвета оповещения: 1 - красный, 0 - синий
-                ViewBag.MessageCode =
-                    message == MessageStatus.DeletedArticleNotFound ? 1
-                    : message == MessageStatus.EditedArticleNotFound ? 1
-                    : message == MessageStatus.ArticleAlreadyFavorites ? 1
-                    : message == MessageStatus.AddFavoritesArticleOrUserNotFound ? 1
-                    : message == MessageStatus.DeleteFavoritesArticleAndUserNotFound ? 1
-                    : message == MessageStatus.UserForFavoritesNotFound ? 1
-                    : 0;
+                switch (message)
+                {
+                    case MessageStatus.DeletedArticleNotFound:
+                        ViewBag.MessageCode = 1;
+                        logger.Info(DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss") + " in /Blogs/Index : Статья, которую вы пытаетесь удалить, не существует.");
+                        break;
+                    case MessageStatus.EditedArticleNotFound:
+                        ViewBag.MessageCode = 1;
+                        logger.Info(DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss") + " in /Blogs/Index : Статья, которую вы пытались отредактировать, не существует.");
+                        break;
+                    case MessageStatus.ArticleAlreadyFavorites:
+                        ViewBag.MessageCode = 1;
+                        logger.Info(DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss") + " in /Blogs/Index : Статья уже находится у вас в Избранном.");
+                        break;
+                    case MessageStatus.AddFavoritesArticleOrUserNotFound:
+                        ViewBag.MessageCode = 1;
+                        logger.Info(DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss") + " in /Blogs/Index : Не найден пользователь или статья для добавления ее в Избранное.");
+                        break;
+                    case MessageStatus.DeleteFavoritesArticleAndUserNotFound:
+                        ViewBag.MessageCode = 1;
+                        logger.Info(DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss") + " in /Blogs/Index : Не найден пользователь и статья для удаления ее из Избранного.");
+                        break;
+                    case MessageStatus.UserForFavoritesNotFound:
+                        ViewBag.MessageCode = 1;
+                        logger.Info(DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss") + " in /Blogs/Index : Не определен текущий пользователь, чтобы открыть его Избранные статьи.");
+                        break;
+                    default:
+                        ViewBag.MessageCode = 0;
+                        break;
+
+                }
 
                 ViewBag.Categorys = db.Categorys;
                 ViewBag.Favorites = db.Favorites;
@@ -119,12 +142,29 @@ namespace Lab1.Controllers
                     : message == MessageStatus.EditedArticleNotFound ? "Статья, которую вы пытались отредактировать, не существует."
                     : "";
                 //Определитель цвета оповещения: 1 - красный, 0 - синий
-                ViewBag.MessageCode =
-                    message == MessageStatus.DeletedArticleNotFoundFavorites ? 1
-                    : message == MessageStatus.ArticleDeletedFromFaavoritesNotFound ? 1
-                    : message == MessageStatus.DeletedArticleNotFound ? 1
-                    : message == MessageStatus.EditedArticleNotFound ? 1
-                    : 0;
+                switch(message)
+                {
+                    case MessageStatus.DeletedArticleNotFoundFavorites:
+                        ViewBag.MessageCode = 1;
+                        logger.Info(DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss") + " in /Blogs/Favorites : У вас в Избранном нет статьи, которую вы пытаетесь удалить.");
+                        break;
+                    case MessageStatus.ArticleDeletedFromFaavoritesNotFound:
+                        ViewBag.MessageCode = 1;
+                        logger.Info(DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss") + " in /Blogs/Favorites : Не найдена статья для удаления ее из Избранного.");
+                        break;
+                    case MessageStatus.DeletedArticleNotFound:
+                        ViewBag.MessageCode = 1;
+                        logger.Info(DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss") + " in /Blogs/Favorites : Статья, которую вы пытаетесь удалить, не существует.");
+                        break;
+                    case MessageStatus.EditedArticleNotFound:
+                        ViewBag.MessageCode = 1;
+                        logger.Info(DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss") + " in /Blogs/Favorites : Статья, которую вы пытались отредактировать, не существует.");
+                        break;
+                    default:
+                        ViewBag.MessageCode = 0;
+                        break;
+
+                }
 
                 ViewBag.Categorys = db.Categorys;
                 ViewBag.Articles = db.Articles;
