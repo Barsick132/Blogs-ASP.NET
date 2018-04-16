@@ -1,0 +1,1 @@
+2018-04-16 05:52:24.4625 Lab1.Controllers.BlogsController.Edit Debug: 16.04.2018 05:52:24 in /Blogs/Edit : Нулевой объект должен иметь значение.  ActionMethodDispatcher.Execute => <no type>.lambda_method => BlogsController.Edit

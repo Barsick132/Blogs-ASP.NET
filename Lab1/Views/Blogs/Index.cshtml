@@ -86,7 +86,7 @@
 {
 
     //Оповещения
-    <div class="alert alert-@colorMess(ViewBag.MessageCode) col-12" @isHidden(ViewBag.Message == null) role="alert">
+    <div class="alert alert-@colorMess(ViewBag.MessageCode) col-12" @isHidden(ViewBag.Message == "") role="alert">
         @ViewBag.Message
     </div>
 
@@ -170,7 +170,7 @@ else //Если категория была указана в запросе, т
         </div>
 
         @*Выводим оповещение, если оно было*@
-        <div class="alert alert-@colorMess(ViewBag.MessageCode) col-12" @isHidden(ViewBag.Message == null) role="alert">
+        <div class="alert alert-@colorMess(ViewBag.MessageCode) col-12" @isHidden(ViewBag.Message == "") role="alert">
             @ViewBag.Message
         </div>
 
@@ -188,7 +188,9 @@ else //Если категория была указана в запросе, т
                             @*Скрываем кнопки, если это не текущий пользователь*@
                             @if (Request.IsAuthenticated)
                             {
-                                <a class="btn btn-danger mb-1 btn-sm" href="/Blogs/Delete/?CategoryID=@art.CategoryID&ArticleID=@art.ID&page=@ViewBag.CurrentPage&NextArticleID=@getNextArtID(Model, art.ID)" @isHidden(art.AuthorID != User.Identity.GetUserId())>Удалить</a>
+                                <a class="btn btn-danger mb-1 btn-sm" 
+                                   href="/Blogs/Delete/?Favorites=false&CategoryID=@art.CategoryID&ArticleID=@art.ID&page=@ViewBag.CurrentPage&NextArticleID=@getNextArtID(Model, art.ID)" 
+                                   @isHidden(art.AuthorID != User.Identity.GetUserId())>Удалить</a>
                                 <a class="btn btn-warning mb-1 btn-sm" href="/Blogs/Edit/?ArticleID=@art.ID&page=@ViewBag.CurrentPage&CategoryID=@art.CategoryID" @isHidden(art.AuthorID != User.Identity.GetUserId())>Редактировать</a>
                             }
                             <button type="button" class="btn btn-secondary btn-sm mb-1" data-toggle="collapse"

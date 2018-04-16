@@ -7,6 +7,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Lab1.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
+
 namespace Lab1.Controllers
 {
     [Authorize]
@@ -101,10 +103,40 @@ namespace Lab1.Controllers
         //
         // GET: /Manage/Administration
         [Authorize(Roles = "admin")]
-        public async Task<ActionResult> Administration()
+        public ActionResult Administration()
         {
+            using (ApplicationDbContext db = new ApplicationDbContext())
+            {
+                ViewBag.Roles = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db)).Roles.ToList();
+            }
             var allUsers = UserManager.Users.ToList();
             return View(allUsers);
+        }
+        //
+        // POST: /Manage/Lock
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult> Lock(string UserID)
+        {
+            ApplicationUser user = await UserManager.FindByIdAsync(UserID);
+            if (user!=null)
+            {
+                user.LockoutEndDateUtc = DateTime.Now.AddDays(100);
+                await UserManager.UpdateAsync(user);
+            }
+            return new RedirectResult(Url.Action("Administration", "Manage", new {  }));
+        }
+        //
+        // POST: /Manage/Unlock
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult> Unlock(string UserID)
+        {
+            ApplicationUser user = await UserManager.FindByIdAsync(UserID);
+            if (user != null)
+            {
+                user.LockoutEndDateUtc = null;
+                await UserManager.UpdateAsync(user);
+            }
+            return new RedirectResult(Url.Action("Administration", "Manage", new { }));
         }
         protected override void Dispose(bool disposing)
         {

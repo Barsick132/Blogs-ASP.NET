@@ -74,7 +74,7 @@
 <h2 class="display-4 mb-3">Избранное</h2>
 
 @*Оповещения*@
-<div class="alert alert-@colorMess(ViewBag.MessageCode) col-12" @isHidden(ViewBag.Message == null) role="alert">
+<div class="alert alert-@colorMess(ViewBag.MessageCode) col-12" @isHidden(ViewBag.Message == "") role="alert">
     @ViewBag.Message
 </div>
 
@@ -95,8 +95,8 @@
                     @*Скрываем кнопки, если это не текущий пользователь*@
                     @if (Request.IsAuthenticated)
                     {
-                        <a class="btn btn-danger mb-1 btn-sm" href="/Blogs/Delete/?ArticleID=@art.ID&page=@ViewBag.CurrentPage&NextArticleID=@getNextArtID(Model, art.ID)" @isHidden(art.AuthorID != User.Identity.GetUserId())>Удалить</a>
-                        <a class="btn btn-warning mb-1 btn-sm" href="/Blogs/Edit/?ArticleID=@art.ID" @isHidden(art.AuthorID != User.Identity.GetUserId())>Редактировать</a>
+                        <a class="btn btn-danger mb-1 btn-sm" href="/Blogs/Delete/?Favorites=true&ArticleID=@art.ID&page=@ViewBag.CurrentPage&NextArticleID=@getNextArtID(Model, art.ID)" @isHidden(art.AuthorID != User.Identity.GetUserId())>Удалить</a>
+                        <a class="btn btn-warning mb-1 btn-sm" href="/Blogs/Edit/?Favorites=true&ArticleID=@art.ID" @isHidden(art.AuthorID != User.Identity.GetUserId())>Редактировать</a>
                     }
                     <button type="button" class="btn btn-secondary btn-sm mb-1" data-toggle="collapse"
                             href="#@("articleText" + art.ID)" aria-expanded="false"
